@@ -1,20 +1,14 @@
 #include "TFTP.h"
 
-void error(const char *msg) {
-    perror(msg);
-    exit(EXIT_FAILURE);
-}
-
 int main(int argc, char *argv[]) {
     if (argc != 4) {
-        fprintf(stderr, "Usage: %s <host> <file>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <host> <port> <file>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
     const char *host = argv[1];
     const char *service = argv[2];
     const char *file = argv[3];
-    
 
     struct addrinfo hints = {0};
     hints.ai_family = AF_UNSPEC;
@@ -43,6 +37,21 @@ int main(int argc, char *argv[]) {
 
     printf("Address: %s\n", addrstr);
 
+    int Socket = socket(res[0].ai_family, res[0].ai_socktype, res[0].ai_protocol);
+    if (Socket == -1) {
+        perror("Erreur lors de la création du socket");
+        freeaddrinfo(res);
+        exit(EXIT_FAILURE);
+    }
+
+    if (connect(Socket, res[0].ai_addr, res[0].ai_addrlen) == -1) {
+        perror("Erreur lors de la connexion au serveur");
+        close(socket);
+        freeaddrinfo(res);
+        exit(EXIT_FAILURE);
+    }
+
+    close(Socket);
     freeaddrinfo(res);
 
     return 0;
