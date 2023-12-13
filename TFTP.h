@@ -7,3 +7,9 @@
 
 #define TAILLE_BUFFER 512
 #define PACKET_SIZE 516
+
+struct RRQPacket{
+  short opcode;
+  char filename[RRQ_MAX_FILENAME];
+  char mode[RRQ_MAX_MODE];
+};
