@@ -51,6 +51,11 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
+    char rrqBuffer[TAILLE_BUFFER];  
+    int rrqLength = snprintf(rrqBuffer, sizeof(rrqBuffer), "RRQ %s", file);
+
+    sendto(Socket, rrqBuffer, rrqLength, 0, res[0].ai_addr, res[0].ai_addrlen);
+
     close(Socket);
     freeaddrinfo(res);
 

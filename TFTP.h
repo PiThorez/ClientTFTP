@@ -5,4 +5,5 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+#define TAILLE_BUFFER 512
 #define PACKET_SIZE 516
