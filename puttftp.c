@@ -14,4 +14,5 @@ int main(int argc, char *argv[]) {
 
     const char *host = argv[1];
     const char *file = argv[2];
+    const char *node = argv[3];
 }
