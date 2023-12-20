@@ -52,7 +52,9 @@ int main(int argc, char *argv[]) {
     }
 
     char rrqBuffer[TAILLE_BUFFER];  
-    int rrqLength = snprintf(rrqBuffer, sizeof(rrqBuffer), "RRQ %s", file);
+    int rrqLength = snprintf(rrqBuffer, TAILLE_BUFFER, "RRQ %s", file);
+
+    char recvBuffer[TAILLE_BUFFER];
 
     sendto(Socket, rrqBuffer, rrqLength, 0, res[0].ai_addr, res[0].ai_addrlen);
 

@@ -50,14 +50,13 @@ int main(int argc, char *argv[]) {
         freeaddrinfo(res);
         exit(EXIT_FAILURE);
     }
-    
-    struct RRQPacket rrq_packet;
-    rrq_packet.opcode = htons(OPCODE_RRQ);
-    strncpy(rrq_packet.filename, file, RRQ_MAX_FILENAME);
-    strncpy(rrq_packet.mode, "octet", RRQ_MAX_MODE);
-	
-	//alternative a trouver au size of du socket
-    //sendto(socket, &rrq_packet,sizeof (rrq_packet), 0, res[0].ai_addr, res[0].ai_addrlen);
+
+    char rrqBuffer[TAILLE_BUFFER];  
+    int rrqLength = snprintf(rrqBuffer, TAILLE_BUFFER, "RRQ %s", file);
+
+    char recvBuffer[TAILLE_BUFFER];
+
+    sendto(Socket, rrqBuffer, rrqLength, 0, res[0].ai_addr, res[0].ai_addrlen);
 
     close(Socket);
     freeaddrinfo(res);
