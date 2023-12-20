@@ -45,14 +45,16 @@ int main(int argc, char *argv[]) {
     }
 
     char rrqBuffer[TAILLE_BUFFER];
+    sprintf(rrqBuffer, "01%s0%s0", file, "octet");
     int rrqLength = snprintf(rrqBuffer, TAILLE_BUFFER, "RRQ %s", file);
+  
 
     // Use sendto for sending in UDP
     sendto(Socket, rrqBuffer, rrqLength, 0, res[0].ai_addr, res[0].ai_addrlen);
 
     struct sockaddr_storage clientAddr;
     socklen_t clientAddrLen = sizeof(clientAddr);
-
+        FILE *output_file = fopen(file, "wb");
     char recvBuffer[TAILLE_BUFFER];
 
     // Use recvfrom for receiving in UDP
@@ -67,7 +69,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Process the received data (you can save it to a file, for example)
-    printf("Bytes received: %zd\n", bytesRead);
+    printf("Bytes received: %s\n", recvBuffer);
 
     // Send acknowledgment (ACK)
     const char *ack = "ACK";
